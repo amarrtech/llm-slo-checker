@@ -1,5 +1,6 @@
 import pytest
-from llm_slo_checker.prober import ProbeResult, ProbeError
+
+from llm_slo_checker.prober import ProbeError, ProbeResult
 
 
 def test_probe_result_success_case():
@@ -47,12 +48,11 @@ def test_probe_result_error_case():
     assert result.ttft_ms is None
 
 
-import respx
 import httpx
+import respx
 
+from llm_slo_checker.config import ProbingConfig, TargetConfig
 from llm_slo_checker.prober import probe_anthropic
-from llm_slo_checker.config import TargetConfig, ProbingConfig
-
 
 TARGET = TargetConfig(
     base_url="https://api.anthropic.com",

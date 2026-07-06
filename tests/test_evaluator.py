@@ -1,7 +1,6 @@
-from llm_slo_checker.evaluator import evaluate, Verdict, OverallVerdict
-from llm_slo_checker.metrics import SLIReport
 from llm_slo_checker.config import SLOThresholds
-
+from llm_slo_checker.evaluator import OverallVerdict, evaluate
+from llm_slo_checker.metrics import SLIReport
 
 THRESHOLDS = SLOThresholds(
     success_rate=0.995,

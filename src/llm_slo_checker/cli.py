@@ -28,7 +28,7 @@ def cli() -> None:
 @click.option("--output", type=click.Choice(["terminal", "json"]), default="terminal")
 @click.option("--no-color", is_flag=True, help="Disable ANSI color in terminal output")
 def check(config_path: Path, samples: int | None, output: str, no_color: bool) -> None:
-    """Probe the configured endpoint and evaluate SLOs. Exits 0 on PASS, 1 on FAIL, 2 on INCONCLUSIVE."""
+    """Probe the endpoint and evaluate SLOs. Exit 0 PASS, 1 FAIL, 2 INCONCLUSIVE."""
     config = load_config(config_path)
     prompts = _load_prompts(config_path, config.sample_prompts.file)
     n = samples if samples is not None else max(config.probing.min_samples, 30)

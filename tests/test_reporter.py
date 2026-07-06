@@ -1,8 +1,7 @@
 import json
 
 from llm_slo_checker.evaluator import EvaluationResult, OverallVerdict, Verdict
-from llm_slo_checker.reporter import render_terminal, render_json
-
+from llm_slo_checker.reporter import render_json, render_terminal
 
 _VERDICTS = [
     Verdict(sli="success_rate", expected=0.995, actual=0.997, passed=True,

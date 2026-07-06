@@ -1,6 +1,6 @@
 from pathlib import Path
-from llm_slo_checker.config import SLOConfig, load_config
 
+from llm_slo_checker.config import SLOConfig, load_config
 
 FIXTURES = Path(__file__).parent / "fixtures"
 

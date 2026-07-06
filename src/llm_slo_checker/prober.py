@@ -6,8 +6,14 @@ with a non-empty text_delta.text field. Earlier SSE frames (message_start,
 content_block_start, empty deltas) are protocol overhead and are not what a
 user experiences as "the first token." This is the honest TTFT.
 """
+import json
+import os
+import time
 from dataclasses import dataclass
-from typing import Optional
+
+import httpx
+
+from .config import ProbingConfig, TargetConfig
 
 
 class ProbeError(Exception):
@@ -28,20 +34,11 @@ class ProbeResult:
 
     success: bool
     completed: bool
-    status_code: Optional[int]
-    ttft_ms: Optional[float]
+    status_code: int | None
+    ttft_ms: float | None
     total_ms: float
     tokens_received: int
-    error: Optional[str]
-
-
-import json
-import os
-import time
-
-import httpx
-
-from .config import ProbingConfig, TargetConfig
+    error: str | None
 
 
 async def probe_anthropic(
@@ -76,11 +73,11 @@ async def probe_anthropic(
     }
 
     start = time.perf_counter()
-    ttft_ms: Optional[float] = None
+    ttft_ms: float | None = None
     tokens_received = 0
     completed = False
-    status_code: Optional[int] = None
-    error: Optional[str] = None
+    status_code: int | None = None
+    error: str | None = None
 
     try:
         async with httpx.AsyncClient(timeout=probing.timeout_seconds) as client:
@@ -88,7 +85,8 @@ async def probe_anthropic(
                 status_code = response.status_code
                 if response.status_code != 200:
                     body = await response.aread()
-                    error = f"HTTP {response.status_code}: {body[:200].decode('utf-8', errors='replace')}"
+                    body_text = body[:200].decode("utf-8", errors="replace")
+                    error = f"HTTP {response.status_code}: {body_text}"
                     total_ms = (time.perf_counter() - start) * 1000
                     return ProbeResult(
                         success=False,

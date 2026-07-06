@@ -1,7 +1,6 @@
 """Config schema and YAML loader for llm-slo-checker."""
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Optional
 
 import yaml
 
@@ -40,8 +39,8 @@ class SLOThresholds:
 
 @dataclass(frozen=True)
 class ReportingConfig:
-    json_output: Optional[str] = None
-    history_dir: Optional[str] = None
+    json_output: str | None = None
+    history_dir: str | None = None
     github_summary: bool = False
 
 

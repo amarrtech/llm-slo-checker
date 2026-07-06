@@ -1,9 +1,7 @@
 """Terminal + JSON reporting for evaluation results."""
 import json
-from dataclasses import asdict
 
 from .evaluator import EvaluationResult, OverallVerdict
-
 
 ANSI_GREEN = "\033[32m"
 ANSI_RED = "\033[31m"

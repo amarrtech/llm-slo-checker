@@ -38,6 +38,11 @@ target-version = "py311"
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "N", "UP", "B", "A"]
 
+# Test files intentionally colocate imports next to fixture groups for readability
+# and include long SSE-fixture byte strings that must remain single lines.
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["E402", "E501"]
+
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]

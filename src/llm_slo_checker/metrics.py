@@ -6,7 +6,6 @@ small-sample stability.
 """
 import statistics
 from dataclasses import dataclass
-from typing import Optional
 
 from .prober import ProbeResult
 
@@ -16,16 +15,16 @@ class SLIReport:
     total_samples: int
     success_rate: float          # 200 responses with tokens / total
     completion_rate: float       # cleanly-terminated streams / successful streams
-    ttft_p50_ms: Optional[float]
-    ttft_p95_ms: Optional[float]
-    ttft_p99_ms: Optional[float]
-    total_p50_ms: Optional[float]
-    total_p95_ms: Optional[float]
-    total_p99_ms: Optional[float]
+    ttft_p50_ms: float | None
+    ttft_p95_ms: float | None
+    ttft_p99_ms: float | None
+    total_p50_ms: float | None
+    total_p95_ms: float | None
+    total_p99_ms: float | None
     error_counts: dict[str, int]  # error string prefix -> count
 
 
-def _percentile(sorted_values: list[float], pct: float) -> Optional[float]:
+def _percentile(sorted_values: list[float], pct: float) -> float | None:
     """Return the pct percentile (0-100) using linear interpolation.
     For a full statsy tool we'd use numpy; stdlib is fine for our purposes.
     """

@@ -1,4 +1,4 @@
-from llm_slo_checker.metrics import compute_sli_report, SLIReport
+from llm_slo_checker.metrics import SLIReport, compute_sli_report
 from llm_slo_checker.prober import ProbeResult
 
 

@@ -1,13 +1,12 @@
 """Evaluate an SLIReport against SLO thresholds and produce verdicts."""
 from dataclasses import dataclass
-from enum import Enum
-from typing import Optional
+from enum import StrEnum
 
 from .config import SLOThresholds
 from .metrics import SLIReport
 
 
-class OverallVerdict(str, Enum):
+class OverallVerdict(StrEnum):
     PASS = "PASS"
     FAIL = "FAIL"
     INCONCLUSIVE = "INCONCLUSIVE"
@@ -17,10 +16,10 @@ class OverallVerdict(str, Enum):
 class Verdict:
     sli: str
     expected: float
-    actual: Optional[float]
+    actual: float | None
     passed: bool
     direction: str  # "gte" or "lte"
-    error_budget_remaining_pct: Optional[float]
+    error_budget_remaining_pct: float | None
 
 
 @dataclass(frozen=True)
@@ -28,10 +27,10 @@ class EvaluationResult:
     overall: OverallVerdict
     verdicts: list[Verdict]
     total_samples: int
-    reason: Optional[str] = None
+    reason: str | None = None
 
 
-def _error_budget_remaining(sli_name: str, expected: float, actual: float) -> Optional[float]:
+def _error_budget_remaining(sli_name: str, expected: float, actual: float) -> float | None:
     """Fraction of error budget still available, as a percentage.
 
     For rate SLOs (expected > 0.5), budget = 1 - expected, actual excess = actual - expected.
@@ -77,7 +76,7 @@ def evaluate(report: SLIReport, slos: SLOThresholds, min_samples: int) -> Evalua
     )
 
 
-def _check_gte(name: str, expected: float, actual: Optional[float]) -> Verdict:
+def _check_gte(name: str, expected: float, actual: float | None) -> Verdict:
     passed = actual is not None and actual >= expected
     budget = _error_budget_remaining(name, expected, actual) if actual is not None else None
     return Verdict(
@@ -90,7 +89,7 @@ def _check_gte(name: str, expected: float, actual: Optional[float]) -> Verdict:
     )
 
 
-def _check_lte(name: str, expected: float, actual: Optional[float]) -> Verdict:
+def _check_lte(name: str, expected: float, actual: float | None) -> Verdict:
     passed = actual is not None and actual <= expected
     return Verdict(
         sli=name,
