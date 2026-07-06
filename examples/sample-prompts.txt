@@ -1,0 +1,10 @@
+Explain HTTP/2 in one sentence.
+What is the difference between BGP and OSPF?
+Define eventual consistency briefly.
+Summarize the CAP theorem in one line.
+What does TLS do at a high level?
+Describe a service level objective in plain terms.
+What is the purpose of a load balancer?
+Explain sharding in one sentence.
+What is the role of a message broker?
+Define idempotency succinctly.
