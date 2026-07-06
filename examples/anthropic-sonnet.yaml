@@ -1,0 +1,28 @@
+target:
+  base_url: https://api.anthropic.com
+  model: claude-sonnet-4-6
+  api_key_env: ANTHROPIC_API_KEY
+
+probing:
+  interval_seconds: 3600
+  window_hours: 24
+  min_samples: 20
+  concurrent_probes: 3
+  budget_usd_per_month: 5.00
+  request_max_tokens: 30
+  timeout_seconds: 30
+
+sample_prompts:
+  file: sample-prompts.txt
+
+slos:
+  success_rate: 0.995
+  completion_rate: 0.99
+  ttft_p95_ms: 2000
+  ttft_p99_ms: 4000
+  total_p95_ms: 20000
+
+reporting:
+  json_output: history/latest.json
+  history_dir: history/
+  github_summary: true
