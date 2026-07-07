@@ -9,6 +9,14 @@ Point it at an OpenAI-compatible LLM endpoint. Configure your SLOs in YAML. Get 
 
 Built specifically for **streaming** LLM APIs where "success" is not binary — a stream that delivered 47 tokens then disconnected is a distinct case from a 500 error, and this tool tracks them separately.
 
+## How it works
+
+![llm-slo-checker architecture](docs/architecture.svg)
+
+Read the pipeline left to right: your YAML declares both the **target** (base URL, model, API key env) and the **SLO thresholds**. The **Prober** streams from the LLM endpoint and records SSE-level events. Those samples are aggregated into **SLIs** (TTFT p95/p99, success rate, completion rate, error counts) and passed to the **SLO Evaluator**, which compares each SLI against the threshold from your config and emits a **Verdict** — `PASS` / `FAIL` / `INCONCLUSIVE` with exit code `0` / `1` / `2` for CI.
+
+Run it in cron mode and each verdict also appends a JSON snapshot to `history/`, committed by GitHub Actions — so `git log` becomes your SLI trend.
+
 ## Quickstart
 
 Install:
